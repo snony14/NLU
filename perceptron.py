@@ -12,9 +12,27 @@ X = np.array([[0,0],
 [1,1]
 ])
 
-#print(X.shape)
-Y = np.array([0,1,1,1])
+def getLogicFunc(X,ft = 0):
+    Y = []
+    func = None
+    if ft == 0:
+        #and function
+        func = np.logical_and
+    elif ft == 1:
+        #logical or
+        func = np.logical_or
+    elif ft == 2:
+        #logical XOR
+        func = np.logical_xor
+    else:
+        func = np.logical_and
 
+    Y = [func(x[0],x[1]) for x in X]
+    return np.array(Y)
+
+#print(X.shape)
+Y = getLogicFunc(X,2)*1#np.array([1,1,1,0])
+print(Y)
 def sigmoid(x):
   return 1.0 / (1.0 + np.exp(-x))
 
@@ -34,8 +52,6 @@ def feedforward(X, weights, b):
 def train(X, Y, weights,b):
     epochs = 15000
     W = weights
-    #print(W.shape)
-    v = np.array([0,0])
     beta = b
     for i in range(epochs):
         pred = feedforward(X, W,beta)
